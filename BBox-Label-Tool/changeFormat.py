@@ -20,6 +20,7 @@ inputpath = "yolo_labels/"
 outputpath = "yolo_labels_new/"
 cls_id = 0
 # Get files in the inputpath
+mypath = "/root/YOLOv2/BBox-Label-Tool/Labels/001/"
 txt_name_list = []
 for (dirpath, dirnames, filenames) in walk(mypath):
     txt_name_list.extend(filenames)
@@ -35,6 +36,7 @@ for txt_name in txt_name_list:
     if len(lines) != 2:
            
         """ Open output text files """
+        outpath = "/root/YOLOv2/BBox-Label-Tool/Labels/001/"
         txt_outpath = outpath + txt_name
         print("Output:" + txt_outpath)
         txt_outfile = open(txt_outpath, "w")
@@ -45,8 +47,12 @@ for txt_name in txt_name_list:
             xmax = line[2]
             ymin = line[1]
             ymax = line[3]
+
+            yolo_data = "/root/YOLOv2/BBox-Label-Tool/"
+            yolo_images = "Images/001/"
+
         
-            img_path = "yolo_data/" + "yolo_images/" + os.path.splitext(txt_name)[0] + ".jpg"
+            img_path = yolo_data + yolo_images + os.path.splitext(txt_name)[0] + ".jpeg"
             im=Image.open(img_path)
             w= int(im.size[0])
             h= int(im.size[1])
@@ -56,5 +62,6 @@ for txt_name in txt_name_list:
             #print(bb)
             txt_outfile.write(str(cls_id) + " " + " ".join([str(a) for a in bb]) + "\n")
         txt_outfile.close()
-        dst_path = "yolo_images_new/" + os.path.splitext(txt_name)[0] + ".jpg"
+        yolo_images_new = "/root/YOLOv2/BBox-Label-Tool/Images/yolo_images_new/"
+        dst_path = "yolo_images_new/" + os.path.splitext(txt_name)[0] + ".jpeg"
         copyfile(img_path, dst_path )
